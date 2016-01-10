@@ -12,7 +12,8 @@
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
-      "js": ["content.js"]
+      "css": ["jquery-ui.min.css", "jquery-ui.structure.min.css", "jquery-ui.theme.min.css"],
+      "js": ["jquery-2.2.0.min.js", "jquery-ui.min.js", "content.js"]
     }
   ],
   "browser_action": {
