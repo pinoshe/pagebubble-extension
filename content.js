@@ -1,4 +1,11 @@
 (function() {
+	var notifications = [];
+
+	socket.syncUpdates('notification', notifications, function(event, item, array) {
+		console.log('Notifications array is updated! Now it looks like this:');
+		console.log(array);
+	});
+
 	$('body').tooltip({
 		content: function() {
 			return 'Some info...';

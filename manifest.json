@@ -13,7 +13,7 @@
     {
       "matches": ["http://*/*", "https://*/*"],
       "css": ["jquery-ui.min.css", "jquery-ui.structure.min.css", "jquery-ui.theme.min.css"],
-      "js": ["jquery-2.2.0.min.js", "jquery-ui.min.js", "content.js"]
+      "js": ["underscore-min.js", "socket.io.js", "socket.service.js", "jquery-2.2.0.min.js", "jquery-ui.min.js", "content.js"]
     }
   ],
   "browser_action": {
