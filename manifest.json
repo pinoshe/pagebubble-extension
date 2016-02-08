@@ -13,8 +13,8 @@
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
-      "css": ["jquery-ui.min.css", "jquery-ui.structure.min.css", "jquery-ui.theme.min.css"],
-      "js": ["underscore-min.js", "socket.io.js", "socket.service.js", "jquery-2.2.0.min.js", "jquery-ui.min.js", "content.js"]
+      "css": ["lib/css/jquery-ui.min.css", "lib/css/jquery-ui.structure.min.css", "lib/css/jquery-ui.theme.min.css"],
+      "js": ["lib/js/underscore-min.js", "lib/js/socket.io.js", "lib/js/socket.service.js", "lib/js/jquery-2.2.0.min.js", "lib/js/jquery-ui.min.js", "content.js"]
     }
   ],
   "browser_action": {
