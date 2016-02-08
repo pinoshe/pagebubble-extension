@@ -13,10 +13,11 @@
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
-      "css": ["lib/css/jquery-ui.min.css", "lib/css/jquery-ui.structure.min.css", "lib/css/jquery-ui.theme.min.css"],
+      "css": ["lib/css/jquery-ui.min.css", "lib/css/jquery-ui.structure.min.css", "lib/css/jquery-ui.theme.min.css", "content.css"],
       "js": ["lib/js/underscore-min.js", "lib/js/socket.io.js", "lib/js/socket.service.js", "lib/js/jquery-2.2.0.min.js", "lib/js/jquery-ui.min.js", "content.js"]
     }
   ],
+  "web_accessible_resources": ["lib/images/like.png", "lib/images/dislike.png"],
   "browser_action": {
     "default_title": "Wake up the webpage AI!"
   },

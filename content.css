@@ -1,0 +1,27 @@
+pagebubblewrapper {
+	position: relative;
+}
+
+pagebubblelikebtn, pagebubbledislikebtn {
+	display: block;
+	height: 32px;
+	opacity: 0;
+	position: absolute;
+	width: 32px;
+}
+
+pagebubblelikebtn {
+	left: -32px;
+	top: -12px;
+}
+pagebubblelikebtn:hover {
+	opacity: 1;
+}
+
+pagebubbledislikebtn {
+	right: -32px;
+	top: -4px;
+}
+pagebubbledislikebtn:hover {
+	opacity: 1;
+}
