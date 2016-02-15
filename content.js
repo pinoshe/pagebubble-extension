@@ -1,37 +1,38 @@
 (function() {
-	var notifications = [];
+	var notifications = [],
+		removePanelTimeout;
 
 	socket.syncUpdates('notification', notifications, function(event, item, array) {
 		console.log('Notifications array is updated! Now it looks like this:');
 		console.log(array);
 	});
 
-	$('a').wrap('<pagebubblewrapper></pagebubblewrapper>');
+	$('body').append('<pagebubblewrapper><pagebubblelikebtn style="background: url(' + chrome.extension.getURL('lib/images/like.png') + ');"></pagebubblelikebtn><pagebubbledislikebtn style="background: url(' + chrome.extension.getURL('lib/images/dislike.png') + ');"></pagebubbledislikebtn></pagebubblewrapper>')
 
-	$('pagebubblewrapper').append('<pagebubblelikebtn style="background: url(' + chrome.extension.getURL('lib/images/like.png') + ');"></pagebubblelikebtn><pagebubbledislikebtn style="background: url(' + chrome.extension.getURL('lib/images/dislike.png') + ');"></pagebubbledislikebtn>');
+	$('a').hover(
+		function(e) {
+			var offset = $(this).offset(),
+				offsetParent = $(this).offsetParent(),
+				isPositioned = offsetParent[0] !== $('html')[0];
 
-	// $('body').tooltip({
-	// 	content: function() {
-	// 		return 'Some info...';
-	// 	},
-	// 	items: 'a',
-	// 	open: function(event, ui) {
-	// 		if (typeof(event.originalEvent) === 'undefined') {
-	// 			return false;
-	// 		}
-	// 		var $id = $(ui.tooltip).attr('id');
-	// 		$('div.ui-tooltip').not('#' + $id).remove();
+			$('pagebubblewrapper').attr('style', 'display: block; left: ' + (isPositioned || offset.left + offsetParent.left - 32 < 0 ? e.pageX - 64 : offset.left - 32) + 'px; top: ' + (isPositioned ? e.pageY - 12 : offset.top) + 'px;');
 
-	// 		// ajax function to pull in data and add it to the tooltip goes here
-	// 	},
-	// 	close: function(event, ui) {
-	// 		ui.tooltip.hover(function() {
-	// 			$(this).stop(true).fadeTo(400, 1); 
-	// 		}, function() {
-	// 			$(this).fadeOut('400', function() {
-	// 				$(this).remove();
-	// 			});
-	// 		});
-	// 	}
-	// });
+			clearTimeout(removePanelTimeout);
+			removePanelTimeout = setTimeout(function() {
+				$('pagebubblewrapper').removeAttr('style');
+			}, 500);
+		},
+		function(e) {
+			
+		}
+	);
+
+	$('pagebubblewrapper').hover(
+		function(e) {
+			clearTimeout(removePanelTimeout);
+		},
+		function(e) {
+			$('pagebubblewrapper').removeAttr('style');
+		}
+	);
 })();
