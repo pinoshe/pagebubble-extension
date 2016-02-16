@@ -5,6 +5,7 @@ pagebubblewrapper {
 }
 
 pagebubblelikebtn, pagebubbledislikebtn {
+	cursor: pointer;
 	display: block;
 	height: 32px;
 	position: absolute;
