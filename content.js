@@ -1,4 +1,4 @@
-(function() {
+function login() {
 	var notifications = [],
 		removePanelTimeout,
 		currentHoveredHref = '';
@@ -77,4 +77,13 @@
 			error: function (xhr, ajaxOptions, thrownError) {}
 		});
 	});
-})();
+}
+
+chrome.runtime.onMessage.addListener(
+	function(request, sender) {
+		switch(request.type) {
+		case 'login':
+			login();
+			break;
+		}
+	});
