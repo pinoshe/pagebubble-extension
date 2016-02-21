@@ -1,33 +1,41 @@
 function login() {
 	var notifications = [],
 		removePanelTimeout,
-		currentHoveredHref = '';
+		targetUrl = '';
 
 	socket.syncUpdates('notification', notifications, function(event, item, array) {
 		console.log('Notifications array is updated! Now it looks like this:');
 		console.log(array);
 	});
 
-	$('body').append('<pagebubblewrapper><pagebubblelikebtn style="background: url(' + chrome.extension.getURL('lib/images/like.png') + ');"></pagebubblelikebtn><pagebubbledislikebtn style="background: url(' + chrome.extension.getURL('lib/images/dislike.png') + ');"></pagebubbledislikebtn></pagebubblewrapper>')
+	$('body').append('<pagebubblewrapper><pagebubblelikebtn style="background: url(' + chrome.extension.getURL('lib/images/like.png') + ');"></pagebubblelikebtn><pagebubbledislikebtn style="background: url(' + chrome.extension.getURL('lib/images/dislike.png') + ');"></pagebubbledislikebtn></pagebubblewrapper><pagebubbleforeground></pagebubbleforeground>')
 
-	$('a').hover(
+	$('a, img').hover(
 		function(e) {
 			var offset = $(this).offset(),
 				offsetParent = $(this).offsetParent(),
-				isPositioned = offsetParent[0] !== $('html')[0];
+				isPositioned = offsetParent[0] !== $('html')[0],
+				height = $(this).height(),
+				width = $(this).width();
 
-			currentHoveredHref = this.href;
+			if (e.target.tagName.toUpperCase() === 'IMG' && height && width) {
+				$('pagebubbleforeground').attr('style', 'display: block; height: ' + height + 'px; left: ' + offset.left + 'px; top: ' + offset.top + 'px; width: ' + width + 'px;');
+			}
+
+			targetUrl = this.href || this.src;
 
 			$('pagebubblewrapper').attr('style', 'display: block; left: ' + (isPositioned || offset.left + offsetParent.left - 32 < 0 ? e.pageX - 64 : offset.left - 32) + 'px; top: ' + (isPositioned ? e.pageY - 12 : offset.top) + 'px;');
 
 			clearTimeout(removePanelTimeout);
 			removePanelTimeout = setTimeout(function() {
-				currentHoveredHref = '';
+				targetUrl = '';
 				$('pagebubblewrapper').removeAttr('style');
 			}, 2000);
 		},
 		function(e) {
-			
+			if (e.target.tagName.toUpperCase() === 'IMG') {
+				$('pagebubbleforeground').removeAttr('style');
+			}
 		}
 	);
 
@@ -36,7 +44,7 @@ function login() {
 			clearTimeout(removePanelTimeout);
 		},
 		function(e) {
-			currentHoveredHref = '';
+			targetUrl = '';
 			$('pagebubblewrapper').removeAttr('style');
 		}
 	);
@@ -50,7 +58,7 @@ function login() {
 			data: JSON.stringify({
 				name: 'like',
 				data: {
-					targetUrl: currentHoveredHref
+					targetUrl: targetUrl
 				},
 				originUrl: window.location.href
 
@@ -69,7 +77,7 @@ function login() {
 			data: JSON.stringify({
 				name: 'dislike',
 				data: {
-					targetUrl: currentHoveredHref
+					targetUrl: targetUrl
 				},
 				originUrl: window.location.href
 			}),
