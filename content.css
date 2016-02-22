@@ -23,9 +23,26 @@ pagebubbledislikebtn {
 }
 
 pagebubbleforeground {
-	background-color: rgba(0,255,255, 0.5);
+	background-color: rgba(0, 255, 255, 0.5);
 	display: none;
 	pointer-events: none;
 	position: absolute;
 	z-index: 2147483646;
+}
+
+a[data-pagebubble-after-text]:after {
+	background: rgba(255, 255, 0, 0.5);
+	border: 1px solid rgba(0, 0, 0, 0.5);
+	border-radius: 12px;
+	color: black;
+	content: attr(data-pagebubble-after-text);
+	display: inline-block;
+	font-size: 12px;
+	font-weight: bold;
+	height: 16px;
+	margin: -8px 0 0 2px;
+	padding: 2px;
+	position: absolute;
+	text-align: center;
+	width: 16px;
 }

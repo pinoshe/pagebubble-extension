@@ -4,9 +4,43 @@ function login() {
 		targetUrl = '',
 		hoverApplied = false;
 
-	socket.syncUpdates('notification', notifications, function(event, item, array) {
-		console.log('Notifications array is updated! Now it looks like this:');
-		console.log(array);
+	function applyNotificationsBadge() {
+		$('a, img').each(function() {
+			var notificationsCount = 0;
+				i = notifications.length;
+			while(i--) {
+				if (notifications[i].data.targetUrl === (this.href || this.src)) {
+					notificationsCount++;
+				}
+			}
+			if (notificationsCount > 0) {
+				$(this).attr('data-pagebubble-after-text', notificationsCount);
+			}
+		});
+	}
+
+	function stopHighlighting(target) {
+		targetUrl = '';
+		$('pagebubblewrapper, pagebubbleforeground').removeAttr('style');
+	}
+
+	$.ajax({
+		type: "GET",
+		contentType: 'application/json',
+		dataType: 'json',
+		url: "http://pagebubble.com/api/notifications",
+		success: function (response) {
+			notifications = response;
+			applyNotificationsBadge();
+
+			socket.syncUpdates('notification', notifications, function(event, item, array) {
+				// console.log('Notifications array is updated! Now it looks like this:');
+				// console.log(array);
+
+				applyNotificationsBadge();
+			});
+		},
+		error: function (xhr, ajaxOptions, thrownError) {}
 	});
 
 	$('body').append('<pagebubblewrapper><pagebubblelikebtn style="background: url(' + chrome.extension.getURL('lib/images/like.png') + ');"></pagebubblelikebtn><pagebubbledislikebtn style="background: url(' + chrome.extension.getURL('lib/images/dislike.png') + ');"></pagebubbledislikebtn></pagebubblewrapper><pagebubbleforeground></pagebubbleforeground>')
@@ -38,8 +72,7 @@ function login() {
 
 			clearTimeout(removePanelTimeout);
 			removePanelTimeout = setTimeout(function() {
-				targetUrl = '';
-				$('pagebubblewrapper, pagebubbleforeground').removeAttr('style');
+				stopHighlighting(e.target);
 			}, 2000);
 		},
 		function(e) {
@@ -52,8 +85,7 @@ function login() {
 			clearTimeout(removePanelTimeout);
 		},
 		function(e) {
-			targetUrl = '';
-			$('pagebubblewrapper, pagebubbleforeground').removeAttr('style');
+			stopHighlighting(e.target);
 		}
 	);
 
