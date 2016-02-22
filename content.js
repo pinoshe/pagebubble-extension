@@ -1,7 +1,8 @@
 function login() {
 	var notifications = [],
 		removePanelTimeout,
-		targetUrl = '';
+		targetUrl = '',
+		hoverApplied = false;
 
 	socket.syncUpdates('notification', notifications, function(event, item, array) {
 		console.log('Notifications array is updated! Now it looks like this:');
@@ -12,6 +13,15 @@ function login() {
 
 	$('a, img').hover(
 		function(e) {
+			if (hoverApplied) {
+				return;
+			}
+
+			hoverApplied = true;
+			setTimeout(function() {
+				hoverApplied = false;
+			}, 100);
+
 			var offset = $(this).offset(),
 				offsetParent = $(this).offsetParent(),
 				isPositioned = offsetParent[0] !== $('html')[0],
@@ -24,18 +34,16 @@ function login() {
 
 			targetUrl = this.href || this.src;
 
-			$('pagebubblewrapper').attr('style', 'display: block; left: ' + (isPositioned || offset.left + offsetParent.left - 32 < 0 ? e.pageX - 64 : offset.left - 32) + 'px; top: ' + (isPositioned ? e.pageY - 12 : offset.top) + 'px;');
+			$('pagebubblewrapper').attr('style', 'display: block; left: ' + (e.target.tagName.toUpperCase() !== 'IMG' && (isPositioned || offset.left + offsetParent.left - 32 < 0) ? e.pageX - 64 : offset.left - 32) + 'px; top: ' + (e.target.tagName.toUpperCase() !== 'IMG' && isPositioned ? e.pageY - 12 : offset.top) + 'px;');
 
 			clearTimeout(removePanelTimeout);
 			removePanelTimeout = setTimeout(function() {
 				targetUrl = '';
-				$('pagebubblewrapper').removeAttr('style');
+				$('pagebubblewrapper, pagebubbleforeground').removeAttr('style');
 			}, 2000);
 		},
 		function(e) {
-			if (e.target.tagName.toUpperCase() === 'IMG') {
-				$('pagebubbleforeground').removeAttr('style');
-			}
+			
 		}
 	);
 
@@ -45,7 +53,7 @@ function login() {
 		},
 		function(e) {
 			targetUrl = '';
-			$('pagebubblewrapper').removeAttr('style');
+			$('pagebubblewrapper, pagebubbleforeground').removeAttr('style');
 		}
 	);
 
