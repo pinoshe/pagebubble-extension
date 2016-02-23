@@ -1,6 +1,11 @@
 {
   "name": "Page Bubble",
   "description": "An AI that lives on a webpage",
+  "icons": {
+    "16": "lib/images/icon16.png",
+    "48": "lib/images/icon48.png",
+    "128": "lib/images/icon128.png" 
+  },
   "version": "0.0.1",
   "permissions": [
     "tabs",
@@ -20,7 +25,7 @@
   "web_accessible_resources": ["lib/images/like.png", "lib/images/dislike.png"],
   "browser_action": {
     // "default_popup": "popup.html",
-    "default_title": "Pagebubble"
+    "default_title": "Page Bubble"
   },
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqrPRT7iu6bV5ipIrBKrGtRmgZe1FyvAcXLh66+ewwbSBIPvECA7WRCWi4FGKBWbG2C2fc8hnDwOZBr1KlsVIuSug0416oCn08BqHi0mAAGzSYgpAOo+pcnbmD4gsTlS7RABMyamZEQn7UOcLqSRp+rRZm5Pa4U5iT5uPLMYAneNAdIcrnU1357THSDPDlPzmvSsdZFt20uVuiVYbcSZwcJIYcEJ+FduvQrwgMZp1DQwjPJhh7qqwH7mb+JJp7iGpsZioz4haHrVryjUYFUZCIpLcpwZzmSfNPRRFs5H8txlU/eq0TZ0Yw7ll1SC5+T590zEFLaKdNe60FZ+6DmZUqQIDAQAB",
   "manifest_version": 2,
