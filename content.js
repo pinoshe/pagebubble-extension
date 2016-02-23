@@ -28,7 +28,7 @@ function login() {
 		type: "GET",
 		contentType: 'application/json',
 		dataType: 'json',
-		url: "http://pagebubble.com/api/notifications",
+		url: "https://pagebubble.com/api/notifications",
 		success: function (response) {
 			notifications = response;
 			applyNotificationsBadge();
@@ -94,7 +94,7 @@ function login() {
 			type: "POST",
 			contentType: 'application/json',
 			dataType: 'json',
-			url: "http://pagebubble.com/api/notifications",
+			url: "https://pagebubble.com/api/notifications",
 			data: JSON.stringify({
 				name: 'like',
 				data: {
@@ -113,7 +113,7 @@ function login() {
 			type: "POST",
 			contentType: 'application/json',
 			dataType: 'json',
-			url: "http://pagebubble.com/api/notifications",
+			url: "https://pagebubble.com/api/notifications",
 			data: JSON.stringify({
 				name: 'dislike',
 				data: {
