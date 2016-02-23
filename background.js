@@ -6,6 +6,12 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 			xhr.onreadystatechange = () => {
 				if (xhr.readyState === 4) {
 					console.log(JSON.parse(xhr.response));
+
+					chrome.tabs.query({}, function(tabs) {
+						for (var i = 0 ; i < tabs.length ; i++) {
+							chrome.tabs.sendMessage(tabs[i].id, { type: 'login' });
+						}
+					});
 				}
 			}
 			xhr.send();

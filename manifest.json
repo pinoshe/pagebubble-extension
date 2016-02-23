@@ -3,7 +3,7 @@
   "description": "An AI that lives on a webpage",
   "version": "0.0.1",
   "permissions": [
-    "activeTab",
+    "tabs",
     "identity"
   ],
   "background": {
@@ -13,12 +13,14 @@
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
-      "css": ["jquery-ui.min.css", "jquery-ui.structure.min.css", "jquery-ui.theme.min.css"],
-      "js": ["underscore-min.js", "socket.io.js", "socket.service.js", "jquery-2.2.0.min.js", "jquery-ui.min.js", "content.js"]
+      "css": ["lib/css/jquery-ui.min.css", "lib/css/jquery-ui.structure.min.css", "lib/css/jquery-ui.theme.min.css", "content.css"],
+      "js": ["lib/js/underscore-min.js", "lib/js/socket.io.js", "lib/js/socket.service.js", "lib/js/jquery-2.2.0.min.js", "lib/js/jquery-ui.min.js", "content.js"]
     }
   ],
+  "web_accessible_resources": ["lib/images/like.png", "lib/images/dislike.png"],
   "browser_action": {
-    "default_title": "Wake up the webpage AI!"
+    // "default_popup": "popup.html",
+    "default_title": "Pagebubble"
   },
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqrPRT7iu6bV5ipIrBKrGtRmgZe1FyvAcXLh66+ewwbSBIPvECA7WRCWi4FGKBWbG2C2fc8hnDwOZBr1KlsVIuSug0416oCn08BqHi0mAAGzSYgpAOo+pcnbmD4gsTlS7RABMyamZEQn7UOcLqSRp+rRZm5Pa4U5iT5uPLMYAneNAdIcrnU1357THSDPDlPzmvSsdZFt20uVuiVYbcSZwcJIYcEJ+FduvQrwgMZp1DQwjPJhh7qqwH7mb+JJp7iGpsZioz4haHrVryjUYFUZCIpLcpwZzmSfNPRRFs5H8txlU/eq0TZ0Yw7ll1SC5+T590zEFLaKdNe60FZ+6DmZUqQIDAQAB",
   "manifest_version": 2,
