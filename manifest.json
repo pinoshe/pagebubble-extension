@@ -8,8 +8,8 @@
   },
   "version": "0.0.1",
   "permissions": [
-    "tabs",
-    "identity"
+    "identity",
+    "tabs"
   ],
   "background": {
     "scripts": ["background.js"],

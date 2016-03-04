@@ -22,6 +22,17 @@ pagebubbledislikebtn {
 	top: -4px;
 }
 
+pagebubblebackground {
+	background-color: rgba(127, 127, 127, 0.5);
+	height: 100%;
+	left: 0;
+	pointer-events: none;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 2147483646;
+}
+
 pagebubbleforeground {
 	background-color: rgba(0, 255, 255, 0.5);
 	display: none;
