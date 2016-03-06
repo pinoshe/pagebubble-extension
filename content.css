@@ -23,7 +23,7 @@ pagebubbledislikebtn {
 }
 
 pagebubblebackground {
-	background-color: rgba(127, 127, 127, 0.5);
+	background-color: rgba(255, 255, 255, 0.5);
 	height: 100%;
 	left: 0;
 	pointer-events: none;
@@ -31,6 +31,42 @@ pagebubblebackground {
 	top: 0;
 	width: 100%;
 	z-index: 2147483646;
+}
+
+pagebubblestatuspanel {
+	background: -webkit-linear-gradient(top, #d9afd5 0%,#343ec5 100%);
+	border: 1px solid #999;
+	border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+	border-top: none;
+	color:#fff;
+	direction: ltr;
+	display: block;
+	height: 52px;
+	left: 50%;
+	margin-left: -350px;
+	position: fixed;
+	text-align: left;
+	top: 0;
+	width: 700px;
+	-webkit-box-shadow:2px 2px 6px 0px rgba(0, 0, 0, 0.5);
+}
+
+pagebubblestatusclosebutton {
+    background: no-repeat center center url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AMGCBoS9dxOBQAAAC1QTFRFysrK////////////////////////////////////////////////////////B2W/qwAAAA50Uk5TAAABBAwPKoDDxs3n6OvcbSkCAAAAAWJLR0QOb70wTwAAAFVJREFUCNdjEIQCBmwMZQYGIxBDqMKBpV0RyBDd1+LxOhDIEMh+OW8bI4jBdu5NApjBsu6VA5jh8fZeC4gh3Lct+4UhSHt1Att2kHZBVQaGIBx2QQAAsrMYC1O8cuMAAAAASUVORK5CYII=");
+    cursor: pointer !important;
+	float: right;
+    height: 25px;
+    margin: 13px 4px 4px 0px;
+    width: 20px;
+}
+
+pagebubblelogo {
+	border-radius: 0px 0px 0px 4px;
+	display: inline-block;
+	height: 48px;
+	margin: 2px;
+	width: 48px;
 }
 
 pagebubbleforeground {

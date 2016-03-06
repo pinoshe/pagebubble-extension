@@ -22,7 +22,7 @@
       "js": ["lib/js/underscore-min.js", "lib/js/socket.io.js", "lib/js/socket.service.js", "lib/js/jquery-2.2.0.min.js", "lib/js/jquery-ui.min.js", "content.js"]
     }
   ],
-  "web_accessible_resources": ["lib/images/like.png", "lib/images/dislike.png"],
+  "web_accessible_resources": ["lib/images/like.png", "lib/images/dislike.png", "lib/images/icon16.png", "lib/images/icon48.png", "lib/images/icon128.png"],
   "browser_action": {
     // "default_popup": "popup.html",
     "default_title": "Page Bubble"

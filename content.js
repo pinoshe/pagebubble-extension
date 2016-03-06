@@ -1,7 +1,9 @@
 (function() {
 	var isActive = false;
 
-	function highlightElement() {
+	function highlightElement(event) {
+		event.stopPropagation();
+
 		$(this)
 			.attr('pagebubble-original-position', $(this).css('position'))
 			.attr('pagebubble-original-z-index', $(this).css('z-index'))
@@ -19,7 +21,9 @@
 		}
 	}
 
-	function diminishElement() {
+	function diminishElement(event) {
+		event.stopPropagation();
+
 		$(this)
 			.css('position', $(this).attr('pagebubble-original-position'))
 			.css('z-index', $(this).attr('pagebubble-original-z-index'))
@@ -43,9 +47,12 @@
 		}
 		isActive = true;
 
-		$('body').append('<pagebubblebackground></pagebubblebackground>');
+		$('body').append('<pagebubblebackground><pagebubblestatuspanel><pagebubblelogo style="background: url(' + chrome.extension.getURL('lib/images/icon48.png') + ') white;"></pagebubblelogo><pagebubblestatusclosebutton></pagebubblestatusclosebutton></pagebubblestatuspanel></pagebubblebackground>');
 
-		$('img').hover(highlightElement, diminishElement);
+		// $('img').hover(highlightElement, diminishElement);
+		$('body')
+			.on('mouseenter', 'a, img, canvas', highlightElement)
+			.on('mouseleave', 'a, img, canvas', diminishElement);
 
 		// var notifications = [],
 		// 	removePanelTimeout,
@@ -182,7 +189,7 @@
 		isActive = false;
 
 		$('pagebubblebackground').remove();
-		$('img').unbind('mouseenter', highlightElement).unbind('mouseleave', diminishElement);
+		$('a, img, canvas').unbind('mouseenter', highlightElement).unbind('mouseleave', diminishElement);
 
 		// $('pagebubbledislikebtn').off('click');
 		// $('pagebubblelikebtn').off('click');
