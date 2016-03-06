@@ -1,4 +1,4 @@
-pagebubblewrapper {
+/*pagebubblewrapper {
 	display: none;
 	position: absolute;
 	z-index: 2147483647;
@@ -20,9 +20,9 @@ pagebubblelikebtn {
 pagebubbledislikebtn {
 	right: -32px;
 	top: -4px;
-}
+}*/
 
-pagebubblebackground {
+pagebubblewrapper {
 	background-color: rgba(255, 255, 255, 0.5);
 	height: 100%;
 	left: 0;
@@ -45,6 +45,7 @@ pagebubblestatuspanel {
 	height: 52px;
 	left: 50%;
 	margin-left: -350px;
+	pointer-events: all;
 	position: fixed;
 	text-align: left;
 	top: 0;

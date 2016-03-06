@@ -47,9 +47,12 @@
 		}
 		isActive = true;
 
-		$('body').append('<pagebubblebackground><pagebubblestatuspanel><pagebubblelogo style="background: url(' + chrome.extension.getURL('lib/images/icon48.png') + ') white;"></pagebubblelogo><pagebubblestatusclosebutton></pagebubblestatusclosebutton></pagebubblestatuspanel></pagebubblebackground>');
+		$('body').append('<pagebubblewrapper><pagebubblestatuspanel><pagebubblelogo style="background: url(' + chrome.extension.getURL('lib/images/icon48.png') + ') white;"></pagebubblelogo><pagebubblestatusclosebutton></pagebubblestatusclosebutton></pagebubblestatuspanel></pagebubblewrapper>');
 
-		// $('img').hover(highlightElement, diminishElement);
+		$('pagebubblestatusclosebutton').click(function(){
+			deactivate();
+		});
+
 		$('body')
 			.on('mouseenter', 'a, img, canvas', highlightElement)
 			.on('mouseleave', 'a, img, canvas', diminishElement);
@@ -188,7 +191,7 @@
 		}
 		isActive = false;
 
-		$('pagebubblebackground').remove();
+		$('pagebubblewrapper').remove();
 		$('a, img, canvas').unbind('mouseenter', highlightElement).unbind('mouseleave', diminishElement);
 
 		// $('pagebubbledislikebtn').off('click');
