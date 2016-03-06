@@ -45,9 +45,10 @@
 		if (isActive) {
 			return;
 		}
-		isActive = true;
+		isActive = true,
+		mouseDrag = null;
 
-		$('body').append('<pagebubblewrapper><pagebubblestatuspanel><pagebubblelogo style="background: url(' + chrome.extension.getURL('lib/images/icon48.png') + ') white;"></pagebubblelogo><pagebubblestatusclosebutton></pagebubblestatusclosebutton></pagebubblestatuspanel></pagebubblewrapper>');
+		$('body').append('<pagebubblewrapper style="height: ' + $(document).height()+ 'px;"><pagebubblestatuspanel><pagebubblelogo style="background: url(' + chrome.extension.getURL('lib/images/icon48.png') + ') white;"></pagebubblelogo><pagebubblestatusclosebutton></pagebubblestatusclosebutton></pagebubblestatuspanel></pagebubblewrapper>');
 
 		$('pagebubblestatusclosebutton').click(function(){
 			deactivate();
@@ -56,6 +57,39 @@
 		$('body')
 			.on('mouseenter', 'a, img, canvas', highlightElement)
 			.on('mouseleave', 'a, img, canvas', diminishElement);
+
+		$('body')
+			.mousedown(function(event) {
+				mouseDrag = {
+					left: event.pageX,
+					top: event.pageY,
+				};
+
+				$('pagebubblewrapper').append('<pagebubbledemibubble></pagebubbledemibubble>');
+			})
+			.mousemove(function(event) {
+				if (mouseDrag) {
+					if (mouseDrag.width || mouseDrag.height) {
+						$('pagebubblewrapper').addClass('opaque');
+					}
+
+					mouseDrag.width = event.pageX - mouseDrag.left;
+					mouseDrag.height = event.pageY - mouseDrag.top;
+
+					$('pagebubblewrapper pagebubbledemibubble').last().attr('style', 'height: ' + Math.abs(mouseDrag.height) + 'px; left: ' + Math.min(mouseDrag.left, event.pageX) + 'px; top: ' + Math.min(mouseDrag.top, event.pageY) + 'px; width: ' + Math.abs(mouseDrag.width) + 'px;')
+				}
+
+			})
+			.mouseup(function(event) {
+				mouseDrag = null;
+				$('pagebubblewrapper').removeClass('opaque');
+
+				$('pagebubblewrapper pagebubbledemibubble').last().
+					append('<textarea style="-webkit-box-shadow: none; background: none; border: none; box-shadow: none; height: ' + ($('pagebubblewrapper pagebubbledemibubble').last().height() - 24)+ 'px; outline: none; overflow: auto; padding: 12px; pointer-events: all; resize: none; width: ' + ($('pagebubblewrapper pagebubbledemibubble').last().width() - 24)+ 'px;"></textarea>')
+					.find('textarea').focus();
+
+				// $('pagebubblewrapper pagebubbledemibubble').remove();
+			});
 
 		// var notifications = [],
 		// 	removePanelTimeout,

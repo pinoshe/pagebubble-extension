@@ -24,16 +24,21 @@ pagebubbledislikebtn {
 
 pagebubblewrapper {
 	background-color: rgba(255, 255, 255, 0.5);
-	height: 100%;
 	left: 0;
+	min-height: 100%;
 	pointer-events: none;
-	position: fixed;
+	position: absolute;
 	top: 0;
 	width: 100%;
 	z-index: 2147483646;
 }
 
+pagebubblewrapper.opaque {
+	pointer-events: all;
+}
+
 pagebubblestatuspanel {
+	-webkit-box-shadow:2px 2px 6px 0px rgba(0, 0, 0, 0.5);
 	background: -webkit-linear-gradient(top, #d9afd5 0%,#343ec5 100%);
 	border: 1px solid #999;
 	border-bottom-left-radius: 6px;
@@ -50,7 +55,7 @@ pagebubblestatuspanel {
 	text-align: left;
 	top: 0;
 	width: 700px;
-	-webkit-box-shadow:2px 2px 6px 0px rgba(0, 0, 0, 0.5);
+	z-index: 2147483647;
 }
 
 pagebubblestatusclosebutton {
@@ -70,7 +75,13 @@ pagebubblelogo {
 	width: 48px;
 }
 
-pagebubbleforeground {
+pagebubbledemibubble {
+	border: 2px dashed orange;
+	border-radius: 16px;
+	position: absolute;
+}
+
+/*pagebubbleforeground {
 	background-color: rgba(0, 255, 255, 0.5);
 	display: none;
 	pointer-events: none;
@@ -93,4 +104,4 @@ a[data-pagebubble-after-text]:after {
 	position: absolute;
 	text-align: center;
 	width: 16px;
-}
+}*/
