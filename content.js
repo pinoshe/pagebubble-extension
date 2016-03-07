@@ -1,5 +1,6 @@
 (function() {
-	var isActive = false;
+	var notifications = [],
+		isActive = false;
 
 	function highlightElement(event) {
 		event.stopPropagation();
@@ -39,7 +40,74 @@
 			}
 			ancestor = ancestor.parent();
 		}
-	}	
+	}
+
+	function updatePosts(notifications) {
+		var pagebubblewrapper = $('pagebubblewrapper'),
+			pagebubbledemibubbles = $('pagebubbledemibubble[id]'),
+			updatedElements = [],
+			i = notifications.length;
+		while(i--) {
+			if (notifications[i].name !== 'post' || notifications[i].originUrl !== window.location.href) {
+				continue;
+			}
+
+			var notification = notifications[i],
+				element = $('#' + notification._id)[0];
+			if (element) {
+				$(element)
+					.attr('style', 'height: ' + notification.data.height + 'px; left: ' + notification.data.left + 'px; top: ' + notification.data.top + 'px; width: ' + notification.data.width + 'px;')
+					.text(notification.data.text);
+
+				updatedElements.push(element);
+			}
+			else {
+				pagebubblewrapper.append('<pagebubbledemibubble id="' + notification._id + '" style="height: ' + notification.data.height + 'px; left: ' + notification.data.left + 'px; top: ' + notification.data.top + 'px; width: ' + notification.data.width + 'px;">' + notification.data.text + '</pagebubbledemibubble>');
+			}
+		}
+		
+		pagebubbledemibubbles.each(function(index, element) {
+			if (updatedElements.indexOf(element) < 0) {
+				$(element).remove();
+			}
+		});
+
+		$('pagebubbledemibubble:not([id])').remove();
+	}
+
+	function postComment(event) {
+		if (event.keyCode == 13 && !event.shiftKey) {
+			var element = $(event.target);
+				parent = element.closest('pagebubbledemibubble'),
+				parentOffset = parent.offset(),
+				text = element.val();
+
+			if (text) {
+				$.ajax({
+					type: "POST",
+					contentType: 'application/json',
+					dataType: 'json',
+					url: "https://pagebubble.com/api/notifications",
+					data: JSON.stringify({
+						name: 'post',
+						data: {
+							height: parent.height(),
+							left: parentOffset.left,
+							text: element.val(),
+							top: parentOffset.top,
+							width: parent.width()
+						},
+						originUrl: window.location.href
+
+					}),
+					success: function (response) {},
+					error: function (xhr, ajaxOptions, thrownError) {}
+				});
+			}
+
+			return false;
+		}
+	}
 
 	function activate() {
 		if (isActive) {
@@ -47,6 +115,22 @@
 		}
 		isActive = true,
 		mouseDrag = null;
+
+		$.ajax({
+			type: "GET",
+			contentType: 'application/json',
+			dataType: 'json',
+			url: "https://pagebubble.com/api/notifications",
+			success: function (response) {
+				notifications = response;
+				updatePosts(notifications);
+
+				socket.syncUpdates('notification', notifications, function(event, item, array) {
+					updatePosts(array);
+				});
+			},
+			error: function (xhr, ajaxOptions, thrownError) {}
+		});
 
 		$('body').append('<pagebubblewrapper style="height: ' + $(document).height()+ 'px;"><pagebubblestatuspanel><pagebubblelogo style="background: url(' + chrome.extension.getURL('lib/images/icon48.png') + ') white;"></pagebubblelogo><pagebubblestatusclosebutton></pagebubblestatusclosebutton></pagebubblestatuspanel></pagebubblewrapper>');
 
@@ -58,9 +142,12 @@
 			.on('mouseenter', 'a, img, canvas', highlightElement)
 			.on('mouseleave', 'a, img, canvas', diminishElement);
 
+		$('pagebubblewrapper')
+			.on('keypress', 'textarea', postComment);
+
 		$('body')
 			.mousedown(function(event) {
-				if ($(event.target).closest('pagebubblewrapper').length > 0) {
+				if (event.which !== 1 || $(event.target).closest('pagebubblewrapper').length > 0) {
 					return;
 				}
 
@@ -69,7 +156,8 @@
 					top: event.pageY,
 				};
 
-				$('pagebubblewrapper').append('<pagebubbledemibubble><textarea></textarea></pagebubbledemibubble>');
+				$('pagebubblewrapper pagebubbledemibubble:not([id])').remove();
+				$('pagebubblewrapper').append('<pagebubbledemibubble style="display: none;"><textarea></textarea></pagebubbledemibubble>');
 			})
 			.mousemove(function(event) {
 				if (mouseDrag) {
@@ -82,18 +170,16 @@
 
 					$('pagebubblewrapper pagebubbledemibubble')
 						.last().attr('style', 'height: ' + Math.abs(mouseDrag.height) + 'px; left: ' + Math.min(mouseDrag.left, event.pageX) + 'px; top: ' + Math.min(mouseDrag.top, event.pageY) + 'px; width: ' + Math.abs(mouseDrag.width) + 'px;')
-						.find('textarea').css('height', Math.abs(mouseDrag.height)).css('width', Math.abs(mouseDrag.width));
+						.find('textarea').css('height', Math.abs(mouseDrag.height) - 24).css('width', Math.abs(mouseDrag.width) - 24);
 				}
 
 			})
 			.mouseup(function(event) {
 				$('pagebubblewrapper').removeClass('opaque');
 
-				if (mouseDrag.width || mouseDrag.height) {
+				if (mouseDrag && (mouseDrag.width || mouseDrag.height)) {
 					$('pagebubblewrapper pagebubbledemibubble').last().find('textarea').focus();
 				}
-
-				// $('pagebubblewrapper pagebubbledemibubble').remove();
 
 				mouseDrag = null;
 			});
@@ -234,6 +320,9 @@
 
 		$('pagebubblewrapper').remove();
 		$('a, img, canvas').unbind('mouseenter', highlightElement).unbind('mouseleave', diminishElement);
+		$('textarea').unbind('keypress', postComment);
+
+		socket.unsyncUpdates('notification');
 
 		// $('pagebubbledislikebtn').off('click');
 		// $('pagebubblelikebtn').off('click');

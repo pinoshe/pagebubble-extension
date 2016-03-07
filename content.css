@@ -79,6 +79,8 @@ pagebubbledemibubble {
 	background: white;
 	border: 2px ridge orange;
 	border-radius: 8px;
+	direction: ltr;
+	padding: 12px;
 	position: absolute;
 }
 
@@ -89,8 +91,7 @@ textarea {
 	box-shadow: none !important;
 	direction: ltr !important;
 	outline: none !important;
-	overflow: auto !important;
-	padding: 12px !important;
+	overflow: hidden !important;
 	pointer-events: all !important;
 	resize: none !important;
 }
