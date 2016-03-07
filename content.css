@@ -76,9 +76,23 @@ pagebubblelogo {
 }
 
 pagebubbledemibubble {
-	border: 2px dashed orange;
-	border-radius: 16px;
+	background: white;
+	border: 2px ridge orange;
+	border-radius: 8px;
 	position: absolute;
+}
+
+textarea {
+	-webkit-box-shadow: none !important;
+	background: none !important;
+	border: none !important;
+	box-shadow: none !important;
+	direction: ltr !important;
+	outline: none !important;
+	overflow: auto !important;
+	padding: 12px !important;
+	pointer-events: all !important;
+	resize: none !important;
 }
 
 /*pagebubbleforeground {

@@ -60,12 +60,16 @@
 
 		$('body')
 			.mousedown(function(event) {
+				if ($(event.target).closest('pagebubblewrapper').length > 0) {
+					return;
+				}
+
 				mouseDrag = {
 					left: event.pageX,
 					top: event.pageY,
 				};
 
-				$('pagebubblewrapper').append('<pagebubbledemibubble></pagebubbledemibubble>');
+				$('pagebubblewrapper').append('<pagebubbledemibubble><textarea></textarea></pagebubbledemibubble>');
 			})
 			.mousemove(function(event) {
 				if (mouseDrag) {
@@ -76,19 +80,22 @@
 					mouseDrag.width = event.pageX - mouseDrag.left;
 					mouseDrag.height = event.pageY - mouseDrag.top;
 
-					$('pagebubblewrapper pagebubbledemibubble').last().attr('style', 'height: ' + Math.abs(mouseDrag.height) + 'px; left: ' + Math.min(mouseDrag.left, event.pageX) + 'px; top: ' + Math.min(mouseDrag.top, event.pageY) + 'px; width: ' + Math.abs(mouseDrag.width) + 'px;')
+					$('pagebubblewrapper pagebubbledemibubble')
+						.last().attr('style', 'height: ' + Math.abs(mouseDrag.height) + 'px; left: ' + Math.min(mouseDrag.left, event.pageX) + 'px; top: ' + Math.min(mouseDrag.top, event.pageY) + 'px; width: ' + Math.abs(mouseDrag.width) + 'px;')
+						.find('textarea').css('height', Math.abs(mouseDrag.height)).css('width', Math.abs(mouseDrag.width));
 				}
 
 			})
 			.mouseup(function(event) {
-				mouseDrag = null;
 				$('pagebubblewrapper').removeClass('opaque');
 
-				$('pagebubblewrapper pagebubbledemibubble').last().
-					append('<textarea style="-webkit-box-shadow: none; background: none; border: none; box-shadow: none; height: ' + ($('pagebubblewrapper pagebubbledemibubble').last().height() - 24)+ 'px; outline: none; overflow: auto; padding: 12px; pointer-events: all; resize: none; width: ' + ($('pagebubblewrapper pagebubbledemibubble').last().width() - 24)+ 'px;"></textarea>')
-					.find('textarea').focus();
+				if (mouseDrag.width || mouseDrag.height) {
+					$('pagebubblewrapper pagebubbledemibubble').last().find('textarea').focus();
+				}
 
 				// $('pagebubblewrapper pagebubbledemibubble').remove();
+
+				mouseDrag = null;
 			});
 
 		// var notifications = [],
